@@ -53,12 +53,20 @@ provided JDBC URL includes `createDatabaseIfNotExist=true`):
 CREATE DATABASE hotel_booking;
 ```
 
-## 3. Configure Application Properties
+## ## 3. Configure Application Properties
 
-A working `application.properties` is already included with a
-placeholder password. **Edit it** (or copy
-`application.properties.example` again) and set your own MySQL
-password:
+1. Copy `application.properties.example` to `application.properties`.
+2. Open `application.properties`.
+3. Update your MySQL username and password.
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/hotel_booking?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=YOUR_PASSWORD
+```
+
+Keep your actual database credentials private. Do not commit `application.properties` to GitHub.
+
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/hotel_booking?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
@@ -127,3 +135,11 @@ and 6 sample rooms (101, 102, 103, 201, 202, 203).
 - `spring.jpa.hibernate.ddl-auto=update` will auto-create/update
   tables on startup — fine for a student project, but use proper
   migrations (Flyway/Liquibase) for production use.
+
+
+## Task Submission
+
+* Internship Task: [Hotel Booking Platform]
+* GitHub Repository: https://github.com/nandinidighde1646-source/Hotel-Booking-Platform
+* Demo Video: Coming soon
+* Live Demo: Coming soon
