@@ -141,5 +141,4 @@ and 6 sample rooms (101, 102, 103, 201, 202, 203).
 
 * Internship Task: [Hotel Booking Platform]
 * GitHub Repository: https://github.com/nandinidighde1646-source/Hotel-Booking-Platform
-* Demo Video: Coming soon
-* Live Demo: Coming soon
+* Demo Video: https://youtu.be/6Vy-kVg4SHA
