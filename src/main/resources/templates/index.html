@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='Home')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<section class="hero">
+    <div class="container">
+        <h1>Find your perfect stay</h1>
+        <p>Simple, fast and reliable hotel room booking</p>
+
+        <form class="search-form" th:action="@{/rooms}" th:object="${roomSearchDto}" method="get">
+            <div class="field">
+                <label for="checkInDate">Check-in</label>
+                <input type="date" id="checkInDate" th:field="*{checkInDate}" name="checkInDate"/>
+            </div>
+            <div class="field">
+                <label for="checkOutDate">Check-out</label>
+                <input type="date" id="checkOutDate" th:field="*{checkOutDate}" name="checkOutDate"/>
+            </div>
+            <div class="field">
+                <label for="guests">Guests</label>
+                <input type="number" id="guests" min="1" th:field="*{guests}" name="guests"/>
+            </div>
+            <div class="field">
+                <button type="submit" class="btn btn-primary btn-full">Search Rooms</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<div class="container page-wrap">
+
+    <h2 class="section-title">Featured Rooms</h2>
+    <div class="grid grid-3" th:if="${not #lists.isEmpty(featuredRooms)}">
+        <div class="card" th:each="room : ${featuredRooms}">
+            <div class="flex-between">
+                <h3 th:text="'Room ' + ${room.roomNumber}">Room 101</h3>
+                <span class="badge" th:classappend="'badge-' + ${room.status}" th:text="${room.status}">AVAILABLE</span>
+            </div>
+            <p class="muted" th:text="${room.roomType.name}">Standard Room</p>
+            <p th:text="${room.roomType.description}">Description</p>
+            <p><strong th:text="'₹' + ${room.roomType.basePrice}">₹1500</strong> / night &middot;
+                <span th:text="${room.roomType.capacity} + ' guests'">2 guests</span></p>
+            <a class="btn btn-outline btn-full" th:href="@{'/rooms/' + ${room.id}}">View Room</a>
+        </div>
+    </div>
+    <p class="muted" th:if="${#lists.isEmpty(featuredRooms)}">No rooms have been added yet.</p>
+
+    <h2 class="section-title">Why Book With Us</h2>
+    <div class="grid grid-4">
+        <div class="card">
+            <h3>Best Price</h3>
+            <p class="muted">Transparent, no hidden charges pricing per night.</p>
+        </div>
+        <div class="card">
+            <h3>Instant Confirmation</h3>
+            <p class="muted">Your booking is confirmed the moment you pay.</p>
+        </div>
+        <div class="card">
+            <h3>No Double Booking</h3>
+            <p class="muted">Our system guarantees your room is truly reserved.</p>
+        </div>
+        <div class="card">
+            <h3>24/7 Support</h3>
+            <p class="muted">Front desk staff are always available for you.</p>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

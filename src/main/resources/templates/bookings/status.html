@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='Booking Status')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap" style="max-width:400px; text-align:center;">
+    <div class="card">
+        <h2 th:text="'Booking #' + ${booking.id}">Booking #1</h2>
+        <span class="badge" style="font-size:16px;" th:classappend="'badge-' + ${booking.status}" th:text="${booking.status}">CONFIRMED</span>
+        <p class="mt-16"><a th:href="@{'/bookings/' + ${booking.id}}">View full details</a></p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

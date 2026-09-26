@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- Common <head> fragment: pulled into every page via th:replace -->
+    <th:block th:fragment="head(title)">
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title th:text="${title} + ' | Hotel Book'">Hotel Book</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    </th:block>
+</head>
+<body>
+<!-- Shared top navigation, aware of login state and role -->
+<header class="navbar" th:fragment="navbar">
+    <div class="container">
+        <a class="brand" th:href="@{/}">HOTEL BOOK</a>
+        <nav>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/rooms}">Rooms</a>
+
+            <th:block sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}">Login</a>
+                <a th:href="@{/register}">Register</a>
+            </th:block>
+
+            <th:block sec:authorize="hasRole('GUEST')">
+                <a th:href="@{/guest/bookings}">My Bookings</a>
+                <a th:href="@{/guest/profile}">Profile</a>
+            </th:block>
+
+            <th:block sec:authorize="hasRole('STAFF')">
+                <a th:href="@{/staff/dashboard}">Staff Dashboard</a>
+            </th:block>
+
+            <th:block sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/dashboard}">Admin Dashboard</a>
+                <a th:href="@{/admin/rooms}">Manage Rooms</a>
+                <a th:href="@{/admin/users}">Users</a>
+            </th:block>
+
+            <th:block sec:authorize="isAuthenticated()">
+                <a th:href="@{/logout}">Logout</a>
+            </th:block>
+        </nav>
+    </div>
+</header>
+
+<footer th:fragment="footer">
+    <div class="container">
+        &copy; 2026 Hotel Book &mdash; Student Internship Project
+    </div>
+</footer>
+</body>
+</html>

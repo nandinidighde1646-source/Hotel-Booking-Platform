@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(title='Room Details')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap" style="max-width:700px;">
+    <div class="card">
+        <div class="flex-between">
+            <h2 th:text="'Room ' + ${room.roomNumber}">Room 101</h2>
+            <span class="badge" th:classappend="'badge-' + ${room.status}" th:text="${room.status}">AVAILABLE</span>
+        </div>
+        <p class="muted" th:text="${room.roomType.name} + ' &middot; Floor ' + ${room.floor}">Standard Room</p>
+        <p th:text="${room.roomType.description}">Description</p>
+        <p>Capacity: <strong th:text="${room.roomType.capacity} + ' guests'">2 guests</strong></p>
+        <p style="font-size:22px;"><strong th:text="'₹' + ${room.roomType.basePrice}">₹1500</strong> <span class="muted">/ night</span></p>
+
+        <hr style="border:none;border-top:1px solid var(--border); margin:18px 0;"/>
+
+        <div sec:authorize="hasRole('GUEST')">
+            <form th:action="@{/bookings/create}" method="get">
+                <input type="hidden" name="roomId" th:value="${room.id}"/>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label for="checkInDate">Check-in</label>
+                        <input type="date" id="checkInDate" name="checkInDate" th:value="${checkInDate}" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkOutDate">Check-out</label>
+                        <input type="date" id="checkOutDate" name="checkOutDate" th:value="${checkOutDate}" required/>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Book Now</button>
+            </form>
+        </div>
+
+        <div sec:authorize="!isAuthenticated()">
+            <p>Please <a th:href="@{/login}">login</a> or <a th:href="@{/register}">register</a> to book this room.</p>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='All Bookings')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap">
+    <h2 class="section-title">All Bookings</h2>
+
+    <div class="card">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Guest</th>
+                <th>Room</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${bookings}">
+                <td th:text="${b.id}">1</td>
+                <td th:text="${b.guest.firstName} + ' ' + ${b.guest.lastName}">Guest</td>
+                <td th:text="${b.room.roomNumber}">101</td>
+                <td th:text="${b.checkInDate}">2026-01-01</td>
+                <td th:text="${b.checkOutDate}">2026-01-02</td>
+                <td th:text="'₹' + ${b.totalAmount}">₹1500</td>
+                <td><span class="badge" th:classappend="'badge-' + ${b.status}" th:text="${b.status}">CONFIRMED</span></td>
+                <td><a th:href="@{'/bookings/' + ${b.id}}">View</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="muted" th:if="${#lists.isEmpty(bookings)}">No bookings yet.</p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

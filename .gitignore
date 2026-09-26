@@ -1,0 +1,20 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+shelf/
+../.idea/workspace.xml
+httpRequests/
+queries/
+dataSources/
+dataSources.local.xml
+
+# Maven
+target/
+
+# Logs
+*.log
+
+# Local config and secrets
+src/main/resources/application.properties
+.env
+.env.*

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='Edit Room')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap" style="max-width:500px;">
+    <div class="card">
+        <h2 style="margin-top:0;">Edit Room</h2>
+        <form th:action="@{'/admin/rooms/' + ${roomId} + '/edit'}" th:object="${roomDto}" method="post">
+            <div class="form-group">
+                <label for="roomNumber">Room Number</label>
+                <input type="text" id="roomNumber" th:field="*{roomNumber}"/>
+                <div class="field-error" th:if="${#fields.hasErrors('roomNumber')}" th:errors="*{roomNumber}"></div>
+            </div>
+            <div class="form-group">
+                <label for="roomTypeId">Room Type</label>
+                <select id="roomTypeId" th:field="*{roomTypeId}">
+                    <option th:each="rt : ${roomTypes}" th:value="${rt.id}" th:text="${rt.name} + ' (₹' + ${rt.basePrice} + ')'"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="floor">Floor</label>
+                <input type="number" id="floor" th:field="*{floor}"/>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" th:field="*{status}">
+                    <option th:each="s : ${roomStatuses}" th:value="${s}" th:text="${s}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" th:field="*{active}" style="width:auto; display:inline-block;"/> Active</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Update Room</button>
+            <a th:href="@{/admin/rooms}" class="btn btn-outline btn-full mt-16">Cancel</a>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

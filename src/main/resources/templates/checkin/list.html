@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='Todays Check-ins')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap">
+    <h2 class="section-title">Today's Check-ins</h2>
+
+    <div class="card">
+        <table>
+            <thead>
+            <tr>
+                <th>Booking</th>
+                <th>Guest</th>
+                <th>Room</th>
+                <th>Check-in Date</th>
+                <th>Check-out Date</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${bookings}">
+                <td th:text="'#' + ${b.id}">#1</td>
+                <td th:text="${b.guest.firstName} + ' ' + ${b.guest.lastName}">Guest</td>
+                <td th:text="${b.room.roomNumber}">101</td>
+                <td th:text="${b.checkInDate}">2026-01-01</td>
+                <td th:text="${b.checkOutDate}">2026-01-02</td>
+                <td>
+                    <form th:action="@{'/check-in/' + ${b.id}}" method="post" style="display:flex; gap:8px;">
+                        <input type="text" name="remarks" placeholder="Remarks (optional)" style="width:160px;"/>
+                        <button type="submit" class="btn btn-primary btn-small">Check In</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="muted" th:if="${#lists.isEmpty(bookings)}">No check-ins scheduled for today.</p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

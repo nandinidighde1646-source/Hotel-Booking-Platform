@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{fragments/layout :: head(title='Error')}"></th:block>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap" style="max-width: 500px; text-align:center;">
+    <div class="card">
+        <h2 th:text="${errorTitle} ?: 'Something Went Wrong'">Error</h2>
+        <p class="muted" th:text="${errorMessage} ?: 'An unexpected error occurred.'">Message</p>
+        <a class="btn btn-primary mt-16" th:href="@{/}">Back to Home</a>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

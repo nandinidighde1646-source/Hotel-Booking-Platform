@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='Users')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap">
+    <h2 class="section-title" style="margin-top:0;">All Users</h2>
+
+    <div class="card">
+        <table>
+            <thead>
+            <tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th>Enabled</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.id}">1</td>
+                <td th:text="${u.name}">Name</td>
+                <td th:text="${u.email}">email@example.com</td>
+                <td><span class="badge" th:classappend="'badge-' + ${u.role}" th:text="${u.role}">GUEST</span></td>
+                <td th:text="${u.enabled} ? 'Yes' : 'No'">Yes</td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="muted" th:if="${#lists.isEmpty(users)}">No users found.</p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

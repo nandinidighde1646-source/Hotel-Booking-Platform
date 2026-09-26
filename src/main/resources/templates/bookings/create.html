@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='Confirm Booking')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap" style="max-width:600px;">
+    <div class="card">
+        <h2 style="margin-top:0;">Confirm Your Booking</h2>
+
+        <h3 th:text="'Room ' + ${room.roomNumber} + ' — ' + ${room.roomType.name}">Room 101</h3>
+        <p class="muted" th:text="${room.roomType.description}">Description</p>
+
+        <table class="mt-16">
+            <tr><td>Check-in</td><td class="text-right" th:text="${checkInDate}">2026-01-01</td></tr>
+            <tr><td>Check-out</td><td class="text-right" th:text="${checkOutDate}">2026-01-02</td></tr>
+            <tr><td>Nights</td><td class="text-right" th:text="${nights}">1</td></tr>
+            <tr><td>Price / night</td><td class="text-right" th:text="'₹' + ${room.roomType.basePrice}">₹1500</td></tr>
+            <tr><td><strong>Total Amount</strong></td><td class="text-right"><strong th:text="'₹' + ${totalAmount}">₹1500</strong></td></tr>
+        </table>
+
+        <h3 class="mt-16">Guest Details</h3>
+        <p>
+            <span th:text="${guest.firstName} + ' ' + ${guest.lastName}">Guest Name</span><br/>
+            <span th:text="${guest.email}">email@example.com</span><br/>
+            <span th:text="${guest.phone}">9999999999</span>
+        </p>
+
+        <form th:action="@{/bookings/create}" method="post" class="mt-16">
+            <input type="hidden" name="roomId" th:value="${room.id}"/>
+            <input type="hidden" name="checkInDate" th:value="${checkInDate}"/>
+            <input type="hidden" name="checkOutDate" th:value="${checkOutDate}"/>
+            <button type="submit" class="btn btn-primary btn-full">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

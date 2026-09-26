@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='Rooms')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap">
+
+    <div class="card mb-16">
+        <form th:action="@{/rooms}" th:object="${roomSearchDto}" method="get" class="search-form" style="box-shadow:none; padding:0;">
+            <div class="field">
+                <label for="checkInDate">Check-in</label>
+                <input type="date" id="checkInDate" th:field="*{checkInDate}" name="checkInDate"/>
+            </div>
+            <div class="field">
+                <label for="checkOutDate">Check-out</label>
+                <input type="date" id="checkOutDate" th:field="*{checkOutDate}" name="checkOutDate"/>
+            </div>
+            <div class="field">
+                <label for="guests">Guests</label>
+                <input type="number" id="guests" min="1" th:field="*{guests}" name="guests"/>
+            </div>
+            <div class="field">
+                <button type="submit" class="btn btn-primary btn-full">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <h2 class="section-title" th:text="${searched} ? 'Available Rooms' : 'All Rooms'">Rooms</h2>
+
+    <div class="grid grid-3" th:if="${not #lists.isEmpty(rooms)}">
+        <div class="card" th:each="room : ${rooms}">
+            <div class="flex-between">
+                <h3 th:text="'Room ' + ${room.roomNumber}">Room 101</h3>
+                <span class="badge" th:classappend="'badge-' + ${room.status}" th:text="${room.status}">AVAILABLE</span>
+            </div>
+            <p class="muted" th:text="${room.roomType.name}">Standard Room</p>
+            <p th:text="${room.roomType.description}">Description</p>
+            <p><strong th:text="'₹' + ${room.roomType.basePrice}">₹1500</strong> / night &middot;
+                <span th:text="${room.roomType.capacity} + ' guests · Floor ' + ${room.floor}">2 guests</span></p>
+            <a class="btn btn-outline btn-full"
+               th:href="@{'/rooms/' + ${room.id}(checkInDate=${roomSearchDto.checkInDate}, checkOutDate=${roomSearchDto.checkOutDate})}">
+                View / Book
+            </a>
+        </div>
+    </div>
+
+    <p class="muted" th:if="${#lists.isEmpty(rooms)}">
+        No rooms found<span th:if="${searched}"> for the selected dates and guest count. Try different dates.</span>.
+    </p>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

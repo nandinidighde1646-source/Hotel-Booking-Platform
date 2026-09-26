@@ -1,0 +1,25 @@
+# =========================================================
+# Copy this file to "application.properties" and fill in
+# your own local MySQL credentials. NEVER commit real
+# passwords to version control.
+# =========================================================
+
+spring.application.name=hotelbooking
+
+# ---- Database ----
+spring.datasource.url=jdbc:mysql://localhost:3306/hotel_booking?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=YOUR_PASSWORD
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# ---- JPA / Hibernate ----
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+# ---- Thymeleaf ----
+spring.thymeleaf.cache=false
+
+# ---- Server ----
+server.port=8080

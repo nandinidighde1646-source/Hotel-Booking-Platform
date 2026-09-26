@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='Login')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap" style="max-width: 420px;">
+    <div class="card">
+        <h2 style="margin-top:0;">Login to Hotel Book</h2>
+
+        <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+        <div class="alert alert-info" th:if="${infoMessage}" th:text="${infoMessage}"></div>
+        <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="username">Email</label>
+                <input type="email" id="username" name="username" required/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required/>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Login</button>
+        </form>
+
+        <p class="mt-16">No account? <a th:href="@{/register}">Register here</a></p>
+
+        <p class="muted mt-16" style="font-size:12px;">
+            Demo accounts &mdash; Admin: admin@hotel.com / admin123 &middot;
+            Staff: staff@hotel.com / staff123 &middot;
+            Guest: guest@hotel.com / guest123
+        </p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

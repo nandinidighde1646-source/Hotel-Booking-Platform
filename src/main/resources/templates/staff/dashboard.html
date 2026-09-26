@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='Staff Dashboard')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap">
+    <h2 class="section-title" style="margin-top:0;">Staff Dashboard</h2>
+
+    <div class="grid grid-4">
+        <div class="card stat-card">
+            <div class="value" th:text="${stats.todaysCheckIns}">0</div>
+            <div class="label">Today's Check-ins</div>
+        </div>
+        <div class="card stat-card">
+            <div class="value" th:text="${stats.todaysCheckOuts}">0</div>
+            <div class="label">Today's Check-outs</div>
+        </div>
+        <div class="card stat-card">
+            <div class="value" th:text="${stats.occupiedRooms}">0</div>
+            <div class="label">Currently Occupied Rooms</div>
+        </div>
+        <div class="card stat-card">
+            <div class="value" th:text="${stats.activeBookings}">0</div>
+            <div class="label">Active Bookings</div>
+        </div>
+    </div>
+
+    <div class="flex-between mt-16">
+        <a class="btn btn-primary" th:href="@{/staff/check-ins}">View Today's Check-ins</a>
+        <a class="btn btn-primary" th:href="@{/staff/check-outs}">View Today's Check-outs</a>
+    </div>
+
+    <h3 class="section-title">Recent Bookings</h3>
+    <div class="card">
+        <table>
+            <thead>
+            <tr><th>ID</th><th>Guest</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${recentBookings}">
+                <td th:text="${b.id}">1</td>
+                <td th:text="${b.guest.firstName} + ' ' + ${b.guest.lastName}">Guest</td>
+                <td th:text="${b.room.roomNumber}">101</td>
+                <td th:text="${b.checkInDate}">2026-01-01</td>
+                <td th:text="${b.checkOutDate}">2026-01-02</td>
+                <td><span class="badge" th:classappend="'badge-' + ${b.status}" th:text="${b.status}">CONFIRMED</span></td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="muted" th:if="${#lists.isEmpty(recentBookings)}">No bookings yet.</p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

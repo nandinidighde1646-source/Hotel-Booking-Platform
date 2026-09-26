@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(title='Booking Details')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap" style="max-width:600px;">
+    <div class="card">
+        <div class="flex-between">
+            <h2 style="margin-top:0;" th:text="'Booking #' + ${booking.id}">Booking #1</h2>
+            <span class="badge" th:classappend="'badge-' + ${booking.status}" th:text="${booking.status}">CONFIRMED</span>
+        </div>
+
+        <h3 th:text="'Room ' + ${booking.room.roomNumber} + ' — ' + ${booking.room.roomType.name}">Room 101</h3>
+
+        <table class="mt-16">
+            <tr><td>Guest</td><td class="text-right" th:text="${booking.guest.firstName} + ' ' + ${booking.guest.lastName}">Guest</td></tr>
+            <tr><td>Check-in</td><td class="text-right" th:text="${booking.checkInDate}">2026-01-01</td></tr>
+            <tr><td>Check-out</td><td class="text-right" th:text="${booking.checkOutDate}">2026-01-02</td></tr>
+            <tr><td>Booked on</td><td class="text-right" th:text="${booking.bookingDate}">2026-01-01</td></tr>
+            <tr><td><strong>Total Amount</strong></td><td class="text-right"><strong th:text="'₹' + ${booking.totalAmount}">₹1500</strong></td></tr>
+        </table>
+
+        <form th:if="${booking.status.name() == 'PENDING' || booking.status.name() == 'CONFIRMED'}"
+              th:action="@{'/bookings/' + ${booking.id} + '/cancel'}" method="post" class="mt-16"
+              data-confirm="Are you sure you want to cancel this booking?">
+            <button type="submit" class="btn btn-danger btn-full">Cancel Booking</button>
+        </form>
+
+        <a th:href="@{/guest/bookings}" class="btn btn-outline btn-full mt-16" sec:authorize="hasRole('GUEST')">Back to My Bookings</a>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

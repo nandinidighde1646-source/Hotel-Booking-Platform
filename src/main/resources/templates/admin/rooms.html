@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(title='Manage Rooms')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container page-wrap">
+    <div class="flex-between">
+        <h2 class="section-title" style="margin:0;">Manage Rooms</h2>
+        <a class="btn btn-primary" th:href="@{/admin/rooms/add}">+ Add Room</a>
+    </div>
+
+    <div class="card mt-16">
+        <table>
+            <thead>
+            <tr>
+                <th>Room #</th>
+                <th>Type</th>
+                <th>Floor</th>
+                <th>Status</th>
+                <th>Active</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room : ${rooms}">
+                <td th:text="${room.roomNumber}">101</td>
+                <td th:text="${room.roomType.name}">Standard Room</td>
+                <td th:text="${room.floor}">1</td>
+                <td>
+                    <span class="badge" th:classappend="'badge-' + ${room.status}" th:text="${room.status}">AVAILABLE</span>
+                    <form th:action="@{'/admin/rooms/' + ${room.id} + '/status'}" method="post" style="display:inline-block; margin-left:6px;">
+                        <select name="status" onchange="this.form.submit()" style="display:inline-block; width:auto; padding:4px;">
+                            <option th:each="s : ${roomStatuses}" th:value="${s}" th:text="${s}" th:selected="${s == room.status}"></option>
+                        </select>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{'/admin/rooms/' + ${room.id} + '/toggle-active'}" method="post">
+                        <input type="hidden" name="active" th:value="${!room.active}"/>
+                        <button type="submit" class="btn btn-small" th:classappend="${room.active} ? 'btn-outline' : 'btn-primary'"
+                                th:text="${room.active} ? 'Deactivate' : 'Activate'">Deactivate</button>
+                    </form>
+                </td>
+                <td><a th:href="@{'/admin/rooms/' + ${room.id} + '/edit'}">Edit</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="muted" th:if="${#lists.isEmpty(rooms)}">No rooms added yet.</p>
+    </div>
+
+    <h3 class="section-title">Room Types</h3>
+    <div class="grid grid-2">
+        <div class="card">
+            <table>
+                <thead><tr><th>Name</th><th>Capacity</th><th>Base Price</th></tr></thead>
+                <tbody>
+                <tr th:each="rt : ${roomTypes}">
+                    <td th:text="${rt.name}">Standard</td>
+                    <td th:text="${rt.capacity}">2</td>
+                    <td th:text="'₹' + ${rt.basePrice}">₹1500</td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="muted" th:if="${#lists.isEmpty(roomTypes)}">No room types added yet.</p>
+        </div>
+
+        <div class="card">
+            <h4 style="margin-top:0;">Add Room Type</h4>
+            <form th:action="@{/admin/room-types/add}" th:object="${roomTypeDto}" method="post">
+                <div class="form-group">
+                    <label for="rtName">Name</label>
+                    <input type="text" id="rtName" th:field="*{name}"/>
+                </div>
+                <div class="form-group">
+                    <label for="rtDescription">Description</label>
+                    <textarea id="rtDescription" th:field="*{description}" rows="2"></textarea>
+                </div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label for="rtCapacity">Capacity</label>
+                        <input type="number" id="rtCapacity" th:field="*{capacity}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="rtPrice">Base Price (₹/night)</label>
+                        <input type="number" step="0.01" id="rtPrice" th:field="*{basePrice}"/>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Add Room Type</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>
