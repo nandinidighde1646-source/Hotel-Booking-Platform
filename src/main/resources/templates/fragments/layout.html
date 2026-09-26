@@ -38,8 +38,15 @@
                 <a th:href="@{/admin/users}">Users</a>
             </th:block>
 
+
             <th:block sec:authorize="isAuthenticated()">
-                <a th:href="@{/logout}">Logout</a>
+                <form th:action="@{/logout}" method="post"
+                      style="display: inline; margin: 0 0 0 20px;">
+                    <button type="submit"
+                            style="background: none; border: none; color: white; font-size: inherit; font-family: inherit; cursor: pointer; padding: 0;">
+                        Logout
+                    </button>
+                </form>
             </th:block>
         </nav>
     </div>
